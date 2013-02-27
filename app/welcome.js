@@ -1,10 +1,17 @@
 iris.screen(function(self) {
+ 
+ var mediator = null;
+ 
+ function init() {
+  mediator = iris.resource(iris.path.mediator).config(self);
+  mediator.init();
+ }
 
- var mediator = iris.resource(iris.path.mediator); 
 
  self.create = function() {
   self.tmpl(iris.path.welcome.html);
-  mediator.init(self);
+  init();
+  
   self.get("new-todo").on("keyup", function (e) {
    if ( e.keyCode === 13 && this.value.trim() !== "" ) {
     mediator.addTodo(this.value);
@@ -21,10 +28,6 @@ iris.screen(function(self) {
    mediator.removeCompleted();
   });
 
-  $("#filters").find("a").on("click", function (e) {
-   $(".selected").removeClass("selected");
-   $(this).addClass("selected");
-  });
  }
  
  self.render = function() {
@@ -32,8 +35,10 @@ iris.screen(function(self) {
  };
 
  self.awake = function (params) {
-  if ( params !== undefined && params.hasOwnProperty("filter") ) {
-   mediator.filter(params.filter);
+  if ( params !== undefined ) {
+   var currentFilter = mediator.filter(params.filter);
+   self.get("filters").find(".selected").removeClass("selected");
+   self.get("filters").find("[href$='" + currentFilter + "']").addClass("selected");
   }
  }
 
@@ -47,6 +52,8 @@ iris.screen(function(self) {
   self.get("footer").toggle(mediator.model.count() !== 0);
   self.get("clear-completed").toggle(mediator.model.completedCount() > 0);
   self.get("toggle-all").prop("checked",mediator.model.remainingCount() === 0);
+  
+  
  }
  
 	

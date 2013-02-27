@@ -5,27 +5,22 @@ iris.resource(function (self) {
  var numTodos = 0;
  var currentFilter = "all";
 
- self.init = function init() {
-  todos = [];
-  remaining = 0;
-  numTodos = 0;
-  currentFilter = "all";
-  return self;
- };
- 
- self.loadTodos = function loadTodos(models) {
+ self.init = function init(models) {
   todos = [];
   var maxId = 0;
   remaining = 0;
-  for (var i = 0; i < models.length; i++) {
-   if (models[i].id > maxId) {
-    maxId = models[i].id;
+  currentFilter = "all";
+  if (models !== undefined) {
+   for (var i = 0; i < models.length; i++) {
+    if (models[i].id > maxId) {
+     maxId = models[i].id;
+    }
+    if (!models[i].completed) {
+     remaining++;
+    }
+    var todo = new Todo(models[i].id, models[i].text, models[i].completed);
+    todos.push(todo);
    }
-   if (!models[i].completed) {
-    remaining++;
-   }
-   var todo = new Todo(models[i].id, models[i].text, models[i].completed);
-   todos.push(todo);
   }
   numTodos = maxId;
   return self;
@@ -52,13 +47,19 @@ iris.resource(function (self) {
   return todos.length;
  };
  
+ self.getAll = function getAll() {
+  return todos;
+ };
+ 
+ 
  self.setAll = function (completed) {
   for (var i = 0; i < todos.length; i++ ) {
    if ( todos[i].completed !== completed ) {
     todos[i].toggle(completed);
    }
   }
-};
+  return todos;
+ };
  
  self.removeCompleted = function () {
   var removed = [];
@@ -79,17 +80,26 @@ iris.resource(function (self) {
  }
  
  self.filter = function (filter) {
-  currentFilter = filter;
-  for (var i = 0; i < todos.length; i++ ) {
-   applyFilter(todos[i], currentFilter);
+  var newFilter = "none";
+  if (filter === "all" || filter === "completed" || filter === "active") {
+   newFilter = filter;
+  } else if (filter === undefined) {
+   newFilter = "all";
   }
+  if (newFilter !== currentFilter) {
+   currentFilter = newFilter;
+   for (var i = 0; i < todos.length; i++ ) {
+    applyFilter(todos[i], currentFilter);
+   }
+  }
+  return currentFilter;
  };
 
  self.getTodo = function(pos) {
   return todos[pos];
  }
  
-  var Todo = function (id, text, completed) {
+ var Todo = function (id, text, completed) {
   this.id = id;
   this.text = text;
   this.completed = completed;
@@ -117,7 +127,11 @@ iris.resource(function (self) {
   };
   
   this.toJSON = function () {
-   return JSON.stringify({id: this.id, text: this.text, completed: this.completed});
+   return JSON.stringify({
+    id: this.id, 
+    text: this.text, 
+    completed: this.completed
+   });
   }
  };
 

@@ -8,7 +8,11 @@ iris.path = {
   html : "todo.html"
  },
  todosModel : "todos_resource.js",
- mediator: "mediator_resource.js"
+ localStorage: "local_storage_decorator.js",
+ mediator: "mediator_resource.js",
+ decorator: "decorator_resource.js",
+ logger: "logger_decorator.js",
+ testDecorator: "empty_decorator.js"
 };
 
 

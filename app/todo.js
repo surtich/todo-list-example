@@ -1,6 +1,6 @@
 iris.ui(function (self) {
 
- var mediator = iris.resource(iris.path.mediator); 
+ var mediator = iris.resource(iris.path.mediator).mediator; 
  var todo = null;
  
  
