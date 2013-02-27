@@ -1,81 +1,53 @@
 iris.screen(function(self) {
 
- 
- //var todos = iris.resource(iris.path.todosModel).init();
- var todos = iris.resource(iris.path.localStorage).init(); 
+ var mediator = iris.resource(iris.path.mediator); 
 
  self.create = function() {
-
   self.tmpl(iris.path.welcome.html);
-  
+  mediator.init(self);
   self.get("new-todo").on("keyup", function (e) {
    if ( e.keyCode === 13 && this.value.trim() !== "" ) {
-    var todo = todos.addTodo(this.value);
-    createTodoUI(todo);
+    mediator.addTodo(this.value);
     this.value = "";
-    render();
    }
   });
 
   self.get("toggle-all").on("click", function () {
    var completed = self.get("toggle-all").prop("checked");
-   todos.setAll( completed );
-   render();
+   mediator.setAll( completed );
   });
 
   self.get("clear-completed").on("click", function() {
-   todos.removeCompleted();
+   mediator.removeCompleted();
   });
 
   $("#filters").find("a").on("click", function (e) {
    $(".selected").removeClass("selected");
    $(this).addClass("selected");
   });
-  
-  self.on(todos.event.remove, function(todo) {
-   self.destroyUI(todo.ui);
-   render();
-  });
-  
-  self.on(todos.event.filter, function(todo) {
-   todo.ui.render();
-  });
-  
-  self.on(todos.event.completed, function(todo) {
-   render();
-  });
-
- for (var i = 0; i < todos.count(); i++) {
-  createTodoUI(todos.getTodo(i));
  }
-  
+ 
+ self.render = function() {
   render();
- }
+ };
 
  self.awake = function (params) {
   if ( params !== undefined && params.hasOwnProperty("filter") ) {
-   todos.filter(params.filter);
+   mediator.filter(params.filter);
   }
  }
 
  function render () {
-
   self.inflate({
-   completed: "Clear completed (" + todos.completedCount() + ")",
-   remaining: todos.remainingCount()
+   completed: "Clear completed (" + mediator.model.completedCount() + ")",
+   remaining: mediator.model.remainingCount()
   });
 
-  self.get("toggle-all").toggle(todos.count() !== 0);
-  self.get("footer").toggle(todos.count() !== 0);
-  self.get("clear-completed").toggle(todos.completedCount() > 0);
-  self.get("toggle-all").prop("checked",todos.remainingCount() === 0);
+  self.get("toggle-all").toggle(mediator.model.count() !== 0);
+  self.get("footer").toggle(mediator.model.count() !== 0);
+  self.get("clear-completed").toggle(mediator.model.completedCount() > 0);
+  self.get("toggle-all").prop("checked",mediator.model.remainingCount() === 0);
  }
  
- function createTodoUI(todo) {
-  var ui = self.ui("todo-list", iris.path.todo.js, {
-   "todo": todo
-  });  
-  todo.ui = ui;
- }
 	
 }, iris.path.welcome.js);

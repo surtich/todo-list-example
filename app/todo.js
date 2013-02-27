@@ -1,6 +1,6 @@
 iris.ui(function (self) {
 
- var todos = iris.resource(iris.path.todosModel);
+ var mediator = iris.resource(iris.path.mediator); 
  var todo = null;
  
  
@@ -12,12 +12,11 @@ iris.ui(function (self) {
   self.tmpl(iris.path.todo.html);
 
   self.get("check").on("click", function () {
-   todo.toggle();
-   render();
+   mediator.toggle(self, todo);
   });
 
   self.get("destroy").on("click", function () {
-   todo.remove();
+   mediator.remove(self, todo);
   });
 
   self.get().on("dblclick", function () {
@@ -28,20 +27,13 @@ iris.ui(function (self) {
   self.get("text").on("blur change", function (e) {
    self.get().removeClass("editing");
    if ( this.value.trim() !== "" ) {
-    todo.edit(this.value);
-    iris.notify(todos.event.edit, todo);
-    render();
+    mediator.edit(todo, self, this.value);
    }
    else this.value = todo.text;
   });
 
   self.get().hide().fadeIn("slow");
   
-  self.on(todos.event.allCompleted , function () {
-   render();
-  });
-  
-  render();
  };
  
  self.render = function() {
