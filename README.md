@@ -1,4 +1,1 @@
-todo-list-example
-=================
-
-Diferents Implementations of a Todo List App with Iris
+Diferents implementations of a TODO List App using [Iris](https://github.com/iris-js/iris)
