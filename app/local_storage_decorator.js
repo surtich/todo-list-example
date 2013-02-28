@@ -35,7 +35,7 @@ iris.resource(function (self) {
     },
     init: function() {
      var models = init();
-     this._super.init(models);
+     return this._super.init(models);
     }
    };
   }

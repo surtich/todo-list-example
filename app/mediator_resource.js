@@ -4,14 +4,15 @@ iris.resource(function (self) {
         self.screen = screen;
         iris.resource(iris.path.todosModel).Model.decorators.mediator = {                        
             init: function(models) {
-                self.uis = [];
                 var todos = this._super.init(models);
+                self.uis = [];
                 if (todos != undefined) {
                     for (var i = 0; i < todos.length; i++) {
                         createTodoUI(todos[i]);
                     }    
                 }
                 self.screen.render();
+                return todos;
             },
             addTodo: function (text) {
                 var todo = this._super.addTodo(text);                

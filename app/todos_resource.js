@@ -13,12 +13,9 @@ iris.resource(function (self) {
         iris.resource(iris.path.logger).config(data);
         iris.resource(iris.path.testDecorator).config(data);
         
-        self.model = new self.Model().decorate('mediator').decorate('logger');
+        self.model = new self.Model().decorate('localStorage').decorate('mediator').decorate('logger');
         createNoDecorableMethods(self.model);
  
-        //self.model = new self.Model().decorate('localStorage').decorate('logger');
-        
-        
         return self.model;
     };
  
