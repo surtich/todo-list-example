@@ -48,6 +48,7 @@ iris.screen(function(self) {
    remaining: model.remainingCount()
   });
 
+  self.get("label_items").text(model.remainingCount() === 1? "item": "items");
   self.get("toggle-all").toggle(model.count() !== 0);
   self.get("footer").toggle(model.count() !== 0);
   self.get("clear-completed").toggle(model.completedCount() > 0);

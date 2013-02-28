@@ -13,7 +13,7 @@ iris.resource(function (self) {
         iris.resource(iris.path.logger).config(data);
         iris.resource(iris.path.testDecorator).config(data);
         
-        self.model = new self.Model().decorate('localStorage').decorate('mediator').decorate('logger');
+        self.model = new self.Model().decorate('mediator').decorate('localStorage').decorate('logger');
         createNoDecorableMethods(self.model);
  
         return self.model;
@@ -41,7 +41,7 @@ iris.resource(function (self) {
             return todos;
         };
         
-        Model.prototype.addTodo = function addTodo(text) {
+        Model.prototype.addTodo = function(text) {
             remaining++;
             numTodos++;
             var todo = new Todo(numTodos, text, false);
@@ -49,7 +49,7 @@ iris.resource(function (self) {
             return todo;
         };
         
-        Model.prototype.setAll = function setAll(completed) {
+        Model.prototype.setAll = function(completed) {
             for (var i = 0; i < todos.length; i++ ) {
                 if ( todos[i].completed !== completed ) {
                     this.toggle(todos[i], completed);
@@ -58,7 +58,7 @@ iris.resource(function (self) {
             return todos;
         };
         
-        Model.prototype.removeCompleted = function () {
+        Model.prototype.removeCompleted = function() {
             var removed = [];
             for ( var i = todos.length-1; i >= 0 ; i-- ) {
                 if (todos[i].completed) {
@@ -70,7 +70,7 @@ iris.resource(function (self) {
             return removed;
         };
         
-        Model.prototype.filter = function filter (filter) {
+        Model.prototype.filter = function(filter) {
             var newFilter = "none";
             if (filter === "all" || filter === "completed" || filter === "active") {
                 newFilter = filter;
@@ -86,7 +86,7 @@ iris.resource(function (self) {
             return currentFilter;
         };
         
-        Model.prototype.toggle = function (todo, completed) {
+        Model.prototype.toggle = function(todo, completed) {
             if (completed !== undefined) {
                 todo.completed = completed;
             } else {
@@ -103,7 +103,7 @@ iris.resource(function (self) {
             todos.splice(idx, 1);
         };
         
-        Model.prototype.edit = function (todo, text) {
+        Model.prototype.edit = function(todo, text) {
             todo.text = text;
         };
         

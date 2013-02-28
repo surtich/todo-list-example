@@ -62,15 +62,7 @@ iris.resource(function (self) {
         
     };
  
-    function createMediatorMethods(Mediator) {
-      
-        
- 
-        
- 
- 
-    }
- 
+    
     function createTodoUI(todo) {
         var ui = self.screen.ui("todo-list", iris.path.todo.js, {
             todo: todo
