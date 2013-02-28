@@ -1,7 +1,7 @@
 iris.resource(function (self) {
  
  self.config = function() {
-  iris.resource(iris.path.mediator).Mediator.decorators.test = {
+  iris.resource(iris.path.todosModel).Model.decorators.test = {
    test: function() {
     alert("test");
    }

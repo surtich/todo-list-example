@@ -1,15 +1,15 @@
 iris.resource(function (self) {
  
- self.createComponentDecorator = function() {
+ self.createComponentDecorable = function() {
   var Component = new Function();
-  inherit(Component, Decorator);
+  inherit(Component, Decorable);
   Component.decorators = {};
   return Component;
  }
 
- function Decorator() {}
+ function Decorable() {}
  
- self.Decorator = Decorator;
+ self.Decorable = Decorable;
  
  function inherit(C, P) {
   var F = function () {};
@@ -20,7 +20,7 @@ iris.resource(function (self) {
  }
  
  
- Decorator.prototype.decorate = function (decorator) {
+ Decorable.prototype.decorate = function (decorator) {
   var F = function () {},
   overrides = this.constructor.decorators[decorator],
   i, newobj;
@@ -47,4 +47,4 @@ iris.resource(function (self) {
   return newobj;
  };
  
-}, iris.path.decorator);
+}, iris.path.decorable);

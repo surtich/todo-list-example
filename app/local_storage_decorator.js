@@ -2,7 +2,7 @@ iris.resource(function (self) {
  
  self.config = function() {
   if ( Storage !== undefined) {
-   iris.resource(iris.path.mediator).Mediator.decorators.localStorage = {
+   iris.resource(iris.path.todosModel).Model.decorators.localStorage = {
    
     addTodo: function (text) {
      var todo = this._super.addTodo(text);
@@ -21,16 +21,16 @@ iris.resource(function (self) {
      }
      return todos;
     },
-    toggle: function(ui, todo) {
-     this._super.toggle(ui, todo);
+    toggle: function(todo) {
+     this._super.toggle(todo);
      updateTodo(todo);
     },
-    remove: function(ui, todo) {
-     this._super.remove(ui, todo);
+    remove: function(todo) {
+     this._super.remove(todo);
      removeTodo(todo);
     },
-    edit: function(todo, ui, text) {
-     this._super.edit(todo, ui, text);
+    edit: function(todo, text) {
+     this._super.edit(todo, text);
      updateTodo(todo);
     },
     init: function() {
