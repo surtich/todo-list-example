@@ -41,9 +41,7 @@ iris.ui(function (self) {
     }
  
     function render () {
-        self.get().toggle(todo.filter);
         self.get().toggleClass("completed", todo.completed);
-        self.get("check").prop("checked", todo.completed);
         self.inflate(todo);
     };
 

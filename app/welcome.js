@@ -45,14 +45,14 @@ iris.screen(function(self) {
  function render () {
   self.inflate({
    completed: "Clear completed (" + model.completedCount() + ")",
-   remaining: model.remainingCount()
+   remaining: {
+      count: model.remainingCount(),
+      label: model.remainingCount() === 1 ? "item" : "items"
+   },
+   hasTodos: model.count() !== 0,
+   noRemainingTodos: model.remainingCount() === 0,
+   hasRemainings: model.completedCount() > 0
   });
-
-  self.get("label_items").text(model.remainingCount() === 1? "item": "items");
-  self.get("toggle-all").toggle(model.count() !== 0);
-  self.get("footer").toggle(model.count() !== 0);
-  self.get("clear-completed").toggle(model.completedCount() > 0);
-  self.get("toggle-all").prop("checked", model.remainingCount() === 0);
   
   
  }
