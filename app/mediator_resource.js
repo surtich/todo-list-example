@@ -5,7 +5,6 @@ iris.resource(function (self) {
         iris.resource(iris.path.todosModel).Model.decorators.mediator = {                        
             init: function(models) {
                 var todos = this._super.init(models);
-                self.uis = [];
                 if (todos != undefined) {
                     for (var i = 0; i < todos.length; i++) {
                         createTodoUI(todos[i]);
@@ -22,8 +21,8 @@ iris.resource(function (self) {
             },
             setAll: function (completed) {
                 var todos = this._super.setAll(completed);
-                for (var i = 0; i < self.uis.length; i++) {
-                    self.uis[i].render();
+                for (var i = 0; i < self.screen.ui("todo-list").length; i++) {
+                    self.screen.ui("todo-list")[i].render();
                 }
                 self.screen.render();
                 return todos;
@@ -38,8 +37,10 @@ iris.resource(function (self) {
             },
             filter: function(filter) {
                 var currentFilter = this._super.filter(filter);
-                for (var i = 0; i < self.uis.length; i++) {
-                    self.uis[i].render();
+                if (self.screen.ui("todo-list")) {
+                	for (var i = 0; i < self.screen.ui("todo-list").length; i++) {
+                    	self.screen.ui("todo-list")[i].render();
+                	}	
                 }
                 return currentFilter;
             },
@@ -69,7 +70,6 @@ iris.resource(function (self) {
         });
         todo.ui = ui;
         ui.render();
-        self.uis.push(ui);
     }
  
 }, iris.path.mediator);
