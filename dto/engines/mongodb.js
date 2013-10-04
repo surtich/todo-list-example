@@ -85,3 +85,11 @@ var Mongodb = exports.Mongodb = function Mongodb(config) {
 };
 
 Mongodb.prototype.protocol = 'mongodb';
+
+Mongodb.prototype.col = function(colName, db, callback) {
+  try {
+    callback(null, db.collection(colName));
+  } catch (err) {
+    callback(err, null);
+  }
+};
