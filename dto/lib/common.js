@@ -1,6 +1,7 @@
 var util = require('util'),
-    async = require('async')
-    inflect = require('i')();
+    async = require('async'),
+    inflect = require('i')(),
+    Q = require("q");
 
 var common = exports;
 
@@ -47,6 +48,8 @@ common.typeOf = function (value) {
 };
 
 common.async = async;
+
+common.Q = Q;
 
 common.capitalize = inflect.camelize;
 

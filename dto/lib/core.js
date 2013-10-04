@@ -3,7 +3,7 @@ var dto = exports;
 
 dto.engines = require('./engines');
 
-//
+
 // Select a storage engine
 //
 dto.use = function (engine, options) {
@@ -26,9 +26,7 @@ dto.use = function (engine, options) {
 	}
 
 	self.key = self.engine.key || 'id';
-	dto.connect.call(self, options || {});
-
-	return self;
+	return dto.connect.call(self, options || {});
 };
 
 //
@@ -67,6 +65,26 @@ dto.connect = function (/* [uri], [port], [options] */) {
   else {
     engine = this.engine || dto.engine;
   }
+
+  var onConnect = options.onConnect;
+
+  var deferred = common.Q.defer();
+  options.onConnect = function(err, db) {
+
+    if (err) {
+      deferred.reject(new Error(error));
+    } else {
+        deferred.resolve(db);
+    }
+    if  (onConnect) {
+      onConnect(err, db);  
+    }
+  };
+
   this.connection = new(engine)(options);
-  return this;
+  return deferred.promise;
 };
+
+dto.do = function(work) {
+  work();
+}

@@ -9,6 +9,7 @@ dto.typeOf         = require('./lib/common').typeOf;
 dto.mixin          = require('./lib/common').mixin;
 dto.clone          = require('./lib/common').clone;
 dto.async          = require('./lib/common').async;
+dto.Q              = require('./lib/common').Q;
 dto.capitalize     = require('./lib/common').capitalize;
 dto.pluralize      = require('./lib/common').pluralize;
 dto.lowerize       = require('./lib/common').lowerize;
